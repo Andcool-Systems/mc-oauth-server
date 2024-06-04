@@ -50,14 +50,12 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
             }
         }catch (Exception e){
             OAuthServer.logger.log(Level.ERROR, e.toString());
-        }finally {
-            //in.release();
         }
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws IOException {
-        disconnect(ctx, "Internal server exception");
+        disconnect(ctx, "§cInternal server exception");
         OAuthServer.logger.log(Level.ERROR, cause.toString());
     }
 
@@ -71,7 +69,8 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
         ByteBuf out = ctx.alloc().buffer();
         ByteBufUtils.writeVarInt(out, 0x00); // Packet ID
         JSONObject response = new JSONObject();
-        response.put("text", reason);
+        response.put("text", "");
+        response.put("extra", OAuthServer.MOTD_FORMATTER.format(reason));
         ByteBufUtils.writeUTF8(out, response.toString());
         ctx.channel().writeAndFlush(out).addListener(ChannelFutureListener.CLOSE);
     }

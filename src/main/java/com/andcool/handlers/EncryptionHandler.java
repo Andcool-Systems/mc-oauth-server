@@ -55,14 +55,14 @@ public class EncryptionHandler {
             ctx.pipeline().replace("encryption", "encryption", new Encryption(sharedSecret));
 
             if (response == null) {
-                SessionHandler.disconnect(ctx, "You are using unlicensed copy of Minecraft!");
+                SessionHandler.disconnect(ctx, "§cYou are using unlicensed copy of Minecraft!");
                 return;
             }
 
             Random random = new Random();
             int code = 100000 + random.nextInt(900000);
 
-            SessionHandler.disconnect(ctx, "Your code is: " + code);
+            SessionHandler.disconnect(ctx, "§l§aYour code is: §n" + code + "§r");
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("status", "success");
             jsonResponse.put("nickname", response.getString("name"));

@@ -28,7 +28,8 @@ public class PingResponse {
         players.put("sample", Collections.emptyList());
         json_response.put("players", players);
 
-        description.put("text", "mc-oauth.andcool.ru");
+        description.put("text", "");
+        description.put("extra", OAuthServer.MOTD_FORMATTER.format(OAuthServer.MOTD));
         json_response.put("description", description);
 
         json_response.put("favicon", "data:image/png;base64," + OAuthServer.SERVER_ICON);
