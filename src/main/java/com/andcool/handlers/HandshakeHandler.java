@@ -1,7 +1,9 @@
 package com.andcool.handlers;
 
 import com.andcool.OAuthServer;
+import com.andcool.config.UserConfig;
 import com.andcool.responses.PingResponse;
+import com.andcool.session.SessionHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import com.andcool.bytebuf.ByteBufUtils;
@@ -18,13 +20,12 @@ public class HandshakeHandler {
         OAuthServer.logger.log(Level.DEBUG, "Received handshake! Protocol version: " +
                                                     protocolVersion +
                                                     " Next state: " + nextState);
-
         session.protocolVersion = protocolVersion;
         session.loginPhase = 1;
         session.nextState = nextState;
         switch (nextState){
             case 1:
-                PingResponse.sendPingResponse(ctx, protocolVersion);
+                PingResponse.sendPingResponse(ctx, UserConfig.PROTOCOL_VERSION == -1 ? protocolVersion : UserConfig.PROTOCOL_VERSION);
                 break;
             case 2:
                 LoginStartHandler.handleLoginStart(ctx, in, session);

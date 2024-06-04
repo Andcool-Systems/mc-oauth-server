@@ -1,6 +1,7 @@
 package com.andcool.handlers;
 
 import com.andcool.bytebuf.ByteBufUtils;
+import com.andcool.config.UserConfig;
 import com.andcool.session.Session;
 import com.andcool.sillyLogger.Level;
 import io.netty.buffer.ByteBuf;
@@ -46,7 +47,7 @@ public class EncryptionHandler {
             }
 
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            digest.update(OAuthServer.server_id.getBytes());
+            digest.update(UserConfig.SERVER_ID.getBytes());
             digest.update(sharedSecret.getEncoded());
             digest.update(OAuthServer.KEY_PAIR.getPublic().getEncoded());
 

@@ -1,6 +1,7 @@
 package com.andcool.responses;
 
 import com.andcool.OAuthServer;
+import com.andcool.config.UserConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import org.json.JSONObject;
@@ -19,17 +20,17 @@ public class PingResponse {
         JSONObject players = new JSONObject();
         JSONObject description = new JSONObject();
 
-        version.put("name", "1.20.4");
+        version.put("name", UserConfig.SERVER_VERSION);
         version.put("protocol", protoVersion);
         json_response.put("version", version);
 
-        players.put("max", 0);
-        players.put("online", 0);
+        players.put("max", UserConfig.PLAYERS_MAX);
+        players.put("online", UserConfig.PLAYERS_NOW);
         players.put("sample", Collections.emptyList());
         json_response.put("players", players);
 
         description.put("text", "");
-        description.put("extra", OAuthServer.MOTD_FORMATTER.format(OAuthServer.MOTD));
+        description.put("extra", OAuthServer.MOTD_FORMATTER.format(UserConfig.MOTD));
         json_response.put("description", description);
 
         json_response.put("favicon", "data:image/png;base64," + OAuthServer.SERVER_ICON);

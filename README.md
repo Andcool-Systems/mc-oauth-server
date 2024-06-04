@@ -22,11 +22,10 @@ C–Client S–Server
 7. **S -> C** Code response
 
 The server does not have an offline mode setting, as it would not make sense in this case, so it always tries to authenticate the player through Mojang.  
-Currently, the server has no settings and all parameters are fixed.
 
 TODO:
 - [x] Add server icon support. 
 - [ ] Add the ability to choose the authentication server.
-- [ ] Add configuration.
+- [x] Add configuration.
 - [ ] Add a proper logger (instead of the custom SillyLogger).
 - [x] Add text formatter for MOTD.

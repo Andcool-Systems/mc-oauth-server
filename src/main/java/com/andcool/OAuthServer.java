@@ -1,5 +1,6 @@
 package com.andcool;
 
+import com.andcool.config.UserConfig;
 import com.andcool.format.MOTDFormatter;
 import com.andcool.hashMap.ExpiringHashMap;
 import com.andcool.pipeline.NoopHandler;
@@ -31,17 +32,15 @@ import javax.imageio.ImageIO;
 
 public class OAuthServer {
     public static ExpiringHashMap<String, JSONObject> expiringMap = new ExpiringHashMap<>(5 * 60 * 1000);
-    private static final int PORT = 25565;
-    public static final String MOTD = "§6§l§nmc-oauth§6§l.andcool.ru";
-    public static final String server_id = "mc-oauth";
 
     public static final KeyPair KEY_PAIR = generateKeyPair();
     public static final byte[] VERIFY_TOKEN = generateVerifyToken();
-    public static final SillyLogger logger = new SillyLogger(server_id, true, Level.DEBUG);
+    public static final SillyLogger logger = new SillyLogger("Main Thread", true, Level.DEBUG);
     public static final MOTDFormatter MOTD_FORMATTER = new MOTDFormatter();
     public static final String SERVER_ICON = loadIcon();
 
     public static void main(String[] args) throws Exception {
+        UserConfig.load();
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -59,13 +58,13 @@ public class OAuthServer {
                         }
                     });
 
-            HttpServer server = HttpServer.create(new InetSocketAddress(8089), 0);
+            HttpServer server = HttpServer.create(new InetSocketAddress(UserConfig.PORT_API), 0);
             server.createContext("/", new APIHandler());
             server.setExecutor(null);
             server.start();
 
-            ChannelFuture future = b.bind(PORT).sync();
-            logger.log(Level.INFO, "Server started on port " + PORT);
+            ChannelFuture future = b.bind(UserConfig.PORT_SERVER).sync();
+            logger.log(Level.INFO, "Server started on port " + UserConfig.PORT_SERVER);
             future.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();
