@@ -19,7 +19,7 @@ C–Client S–Server
 4. **Client auth**
 5. **C -> S** Encryption response
 6. **Server auth + generate code**
-7. **C -> S** Code response
+7. **S -> C** Code response
 
 The server does not have an offline mode setting, as it would not make sense in this case, so it always tries to authenticate the player through Mojang.  
 Currently, the server has no settings and all parameters are fixed.
