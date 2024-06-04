@@ -29,3 +29,4 @@ TODO:
 - [ ] Add the ability to choose the authentication server.
 - [ ] Add configuration.
 - [ ] Add a proper logger (instead of the custom SillyLogger).
+- [ ] Add text formatter for MOTD.
