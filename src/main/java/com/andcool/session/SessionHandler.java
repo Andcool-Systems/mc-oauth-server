@@ -26,26 +26,32 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-        Session session = SessionUtil.getSession(ctx.channel());
-        int packetLength = ByteBufUtils.readVarInt(in);
-        int packetId = ByteBufUtils.readVarInt(in);
-        OAuthServer.logger.log(Level.DEBUG, "packet id: " + packetId + " packet length: " + packetLength);
+        try {
+            Session session = SessionUtil.getSession(ctx.channel());
+            int packetLength = ByteBufUtils.readVarInt(in);
+            int packetId = ByteBufUtils.readVarInt(in);
+            OAuthServer.logger.log(Level.DEBUG, "packet id: " + packetId + " packet length: " + packetLength);
 
-        switch (packetId) {
-            case 0x00: // Handshake
-                HandshakeHandler.handleHandshake(ctx, in, session);
-                break;
-            case 0x01:
-                if (session.nextState == 1) { // Ping/Pong request
-                    long payload = in.readLong();
-                    PingResponse.pongResponse(ctx, payload);
-                }
-                if (session.nextState == 2) {  // Encryption response
-                    EncryptionHandler.handleEncryptionResponse(ctx, in, session);
-                }
-                break;
-            default:
-                OAuthServer.logger.log(Level.ERROR, "Invalid packet ID: " + packetId);
+            switch (packetId) {
+                case 0x00: // Handshake
+                    HandshakeHandler.handleHandshake(ctx, in, session);
+                    break;
+                case 0x01:
+                    if (session.nextState == 1) { // Ping/Pong request
+                        long payload = in.readLong();
+                        PingResponse.pongResponse(ctx, payload);
+                    }
+                    if (session.nextState == 2) {  // Encryption response
+                        EncryptionHandler.handleEncryptionResponse(ctx, in, session);
+                    }
+                    break;
+                default:
+                    OAuthServer.logger.log(Level.ERROR, "Invalid packet ID: " + packetId);
+            }
+        }catch (Exception e){
+            OAuthServer.logger.log(Level.ERROR, e.toString());
+        }finally {
+            //in.release();
         }
     }
 
@@ -57,6 +63,7 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {  // Client disconnect
+        OAuthServer.logger.log(Level.DEBUG, "Session closed!");
         ctx.fireChannelInactive();
     }
 

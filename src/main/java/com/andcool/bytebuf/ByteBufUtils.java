@@ -1,22 +1,11 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.andcool.bytebuf;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class ByteBufUtils {
-    private static final int SEGMENT_BITS = 0x7F;
-    private static final int CONTINUE_BIT = 0x80;
-
-    public ByteBufUtils() {
-    }
 
     public static String readUTF8(ByteBuf buf) throws IOException {
         int len = readVarInt(buf);
@@ -71,9 +60,9 @@ public class ByteBufUtils {
 
         while (true) {
             currentByte = in.readByte();
-            value |= (long) (currentByte & SEGMENT_BITS) << position;
+            value |= (long) (currentByte & 0x7F) << position;
 
-            if ((currentByte & CONTINUE_BIT) == 0) break;
+            if ((currentByte & 0x80) == 0) break;
 
             position += 7;
 
@@ -98,8 +87,12 @@ public class ByteBufUtils {
 
     public static void sendPacket(ChannelHandlerContext ctx, ByteBuf data) {
         ByteBuf packet = ctx.alloc().buffer();
-        ByteBufUtils.writeVarInt(packet, data.readableBytes());
-        packet.writeBytes(data);
-        ctx.writeAndFlush(packet);
+        try {
+            ByteBufUtils.writeVarInt(packet, data.readableBytes());
+            packet.writeBytes(data);
+            ctx.writeAndFlush(packet);
+        } finally {
+            data.release();
+        }
     }
 }

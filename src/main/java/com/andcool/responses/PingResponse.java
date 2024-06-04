@@ -11,7 +11,6 @@ import java.util.Collections;
 
 import static com.andcool.bytebuf.ByteBufUtils.sendPacket;
 
-
 public class PingResponse {
     public static String Response(int protoVersion){
         JSONObject json_response = new JSONObject();

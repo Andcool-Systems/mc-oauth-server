@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import com.andcool.OAuthServer;
 
 public class APIHandler implements HttpHandler {
-    private static final Pattern pattern = Pattern.compile("/code/(\\w+)");
+    private final Pattern pattern = Pattern.compile("/code/(\\w+)");
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {

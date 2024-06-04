@@ -30,5 +30,6 @@ public class HandshakeHandler {
                 LoginStartHandler.handleLoginStart(ctx, in, session);
                 break;
         }
+        //in.release();
     }
 }

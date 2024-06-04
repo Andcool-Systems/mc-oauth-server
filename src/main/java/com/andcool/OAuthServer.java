@@ -34,18 +34,10 @@ public class OAuthServer {
     public static final KeyPair KEY_PAIR = generateKeyPair();
     public static final byte[] VERIFY_TOKEN = generateVerifyToken();
     public static final String server_id = "mc-oauth";
-    public static final SillyLogger logger = new SillyLogger(server_id, false);
-    private static HttpServer server;
+    public static final SillyLogger logger = new SillyLogger(server_id, true, Level.DEBUG);
     public static final String SERVER_ICON = loadIcon();
 
     public static void main(String[] args) throws Exception {
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            public void run() {
-                if (server != null) {
-                    server.stop(0);
-                }
-            }
-        }));
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -63,7 +55,7 @@ public class OAuthServer {
                         }
                     });
 
-            server = HttpServer.create(new InetSocketAddress(8082), 0);
+            HttpServer server = HttpServer.create(new InetSocketAddress(8089), 0);
             server.createContext("/", new APIHandler());
             server.setExecutor(null);
             server.start();
