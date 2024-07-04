@@ -10,11 +10,11 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
-import io.netty.handler.timeout.ReadTimeoutHandler;
-import io.netty.handler.timeout.WriteTimeoutHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.json.JSONObject;
 
 import com.andcool.config.UserConfig;
@@ -62,9 +62,7 @@ public class OAuthServer {
                                     .addLast(new SessionHandler())
                                     .addLast("encryption", NoopHandler.INSTANCE)
                                     .addLast(new LengthFieldBasedFrameDecoder(8192, 0, 4, 0, 4))
-                                    .addLast(new LengthFieldPrepender(4))
-                                    .addLast(new ReadTimeoutHandler(15))
-                                    .addLast(new WriteTimeoutHandler(15));
+                                    .addLast(new LengthFieldPrepender(4));
                         }
                     });
 

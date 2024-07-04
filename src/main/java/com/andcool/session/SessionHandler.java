@@ -1,6 +1,8 @@
 package com.andcool.session;
 
 import java.io.IOException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONObject;
 
@@ -15,14 +17,20 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import java.util.concurrent.Executors;
 
 public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         Session session = new Session();
         SessionUtil.setSession(ctx.channel(), session);
         ctx.fireChannelActive();
+
+        scheduler.schedule(() -> {
+            ctx.close();
+        }, 15, TimeUnit.SECONDS);
     }
 
     @Override
@@ -62,6 +70,7 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
     public void channelInactive(ChannelHandlerContext ctx) {  // Client disconnect
         OAuthServer.logger.log(Level.DEBUG, "Session closed!");
         ctx.fireChannelInactive();
+        scheduler.shutdown();
     }
 
     public static void disconnect(ChannelHandlerContext ctx, String reason) throws IOException {
