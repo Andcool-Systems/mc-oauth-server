@@ -1,33 +1,41 @@
 package com.andcool;
 
-import com.andcool.config.UserConfig;
-import com.andcool.format.MOTDFormatter;
-import com.andcool.hashMap.ExpiringHashMap;
-import com.andcool.pipeline.NoopHandler;
-import com.andcool.sillyLogger.Level;
-import com.andcool.session.SessionHandler;
-import com.andcool.sillyLogger.SillyLogger;
-import com.andcool.handlers.API.APIHandler;
-
-import com.sun.net.httpserver.HttpServer;
-import io.netty.channel.*;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.LengthFieldPrepender;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.channel.socket.SocketChannel;
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.security.*;
-import org.json.JSONObject;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Base64;
 
 import javax.imageio.ImageIO;
+
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
+import org.json.JSONObject;
+
+import com.andcool.config.UserConfig;
+import com.andcool.format.MOTDFormatter;
+import com.andcool.handlers.API.APIHandler;
+import com.andcool.hashMap.ExpiringHashMap;
+import com.andcool.pipeline.NoopHandler;
+import com.andcool.session.SessionHandler;
+import com.andcool.sillyLogger.Level;
+import com.andcool.sillyLogger.SillyLogger;
+import com.sun.net.httpserver.HttpServer;
+
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
 
 
 public class OAuthServer {
@@ -54,7 +62,9 @@ public class OAuthServer {
                                     .addLast(new SessionHandler())
                                     .addLast("encryption", NoopHandler.INSTANCE)
                                     .addLast(new LengthFieldBasedFrameDecoder(8192, 0, 4, 0, 4))
-                                    .addLast(new LengthFieldPrepender(4));
+                                    .addLast(new LengthFieldPrepender(4))
+                                    .addLast(new ReadTimeoutHandler(15))
+                                    .addLast(new WriteTimeoutHandler(15));
                         }
                     });
 

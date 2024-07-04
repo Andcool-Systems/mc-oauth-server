@@ -1,24 +1,33 @@
 package com.andcool.handlers;
 
-import com.andcool.bytebuf.ByteBufUtils;
-import com.andcool.config.UserConfig;
-import com.andcool.session.Session;
-import com.andcool.sillyLogger.Level;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.andcool.OAuthServer;
-import com.andcool.MojangSession;
-import com.andcool.session.SessionHandler;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.andcool.MojangSession;
+import com.andcool.OAuthServer;
+import com.andcool.bytebuf.ByteBufUtils;
+import com.andcool.config.UserConfig;
+import com.andcool.session.Session;
+import com.andcool.session.SessionHandler;
+import com.andcool.sillyLogger.Level;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
 
 public class EncryptionHandler {
     public static void handleEncryptionResponse(ChannelHandlerContext ctx, ByteBuf in, Session session) throws Exception {
@@ -71,7 +80,7 @@ public class EncryptionHandler {
             OAuthServer.expiringMap.put(String.valueOf(code), jsonResponse);
 
             OAuthServer.logger.log(Level.INFO, "Created code " + code + " for " + session.nickname);
-        } catch (Exception e) {
+        } catch (IOException | InterruptedException | InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException | JSONException e) {
             OAuthServer.logger.log(Level.ERROR, "Exception in handleEncryptionResponse: " + e.toString());
         } finally {
             //in.release(); // Освобождение буфера

@@ -1,19 +1,20 @@
 package com.andcool.session;
 
+import java.io.IOException;
+
+import org.json.JSONObject;
+
 import com.andcool.OAuthServer;
-import com.andcool.handlers.HandshakeHandler;
-import com.andcool.sillyLogger.Level;
 import com.andcool.bytebuf.ByteBufUtils;
 import com.andcool.handlers.EncryptionHandler;
+import com.andcool.handlers.HandshakeHandler;
 import com.andcool.responses.PingResponse;
+import com.andcool.sillyLogger.Level;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
@@ -33,10 +34,9 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
             OAuthServer.logger.log(Level.DEBUG, "packet id: " + packetId + " packet length: " + packetLength);
 
             switch (packetId) {
-                case 0x00: // Handshake
+                case 0x00 -> // Handshake
                     HandshakeHandler.handleHandshake(ctx, in, session);
-                    break;
-                case 0x01:
+                case 0x01 -> {
                     if (session.nextState == 1) { // Ping/Pong request
                         long payload = in.readLong();
                         PingResponse.pongResponse(ctx, payload);
@@ -44,9 +44,8 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
                     if (session.nextState == 2) {  // Encryption response
                         EncryptionHandler.handleEncryptionResponse(ctx, in, session);
                     }
-                    break;
-                default:
-                    OAuthServer.logger.log(Level.ERROR, "Invalid packet ID: " + packetId);
+                }
+                default -> OAuthServer.logger.log(Level.ERROR, "Invalid packet ID: " + packetId);
             }
         }catch (Exception e){
             OAuthServer.logger.log(Level.ERROR, e.toString());

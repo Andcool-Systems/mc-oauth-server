@@ -12,8 +12,8 @@ import com.andcool.pipeline.EncryptionRequest;
 
 public class LoginStartHandler {
     public static void handleLoginStart(ChannelHandlerContext ctx, ByteBuf in, Session session) throws Exception {
-        int packetLength = ByteBufUtils.readVarInt(in);  // unused
-        int packetId = ByteBufUtils.readVarInt(in);  // unused
+        ByteBufUtils.readVarInt(in);  // unused
+        ByteBufUtils.readVarInt(in);  // unused
         String nickname = ByteBufUtils.readUTF8(in);
         OAuthServer.logger.log(Level.DEBUG, format("Login start for: %s (protocol version %s)", nickname, session.protocolVersion));
         session.nickname = nickname;
