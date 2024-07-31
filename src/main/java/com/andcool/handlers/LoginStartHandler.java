@@ -17,6 +17,6 @@ public class LoginStartHandler {
         String nickname = ByteBufUtils.readUTF8(in);
         OAuthServer.logger.log(Level.DEBUG, format("Login start for: %s (protocol version %s)", nickname, session.protocolVersion));
         session.nickname = nickname;
-        EncryptionRequest.sendEncryptionRequest(ctx);
+        EncryptionRequest.sendEncryptionRequest(ctx, session.protocolVersion);
     }
 }
