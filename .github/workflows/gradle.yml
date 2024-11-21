@@ -54,7 +54,7 @@ jobs:
       - name: Install SSH and SCP
         run: sudo apt-get update && sudo apt-get install -y openssh-client sshpass
 
-      - name: Download env file
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
@@ -66,7 +66,7 @@ jobs:
         run: |
           sshpass -e scp -o StrictHostKeyChecking=no -r ./mc-oauth-all.jar root@${{ secrets.SERVER_IP }}:/home/andcoolsystems/server
 
-      - name: Extract build artifacts on server
+      - name: Deploy to server
         env:
           SSHPASS: ${{ secrets.ROOT_SSH_PASSWORD }}
         run: |
