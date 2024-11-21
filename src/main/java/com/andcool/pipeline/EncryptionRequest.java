@@ -21,7 +21,7 @@ public class EncryptionRequest {
         ByteBufUtils.writeVarInt(out, OAuthServer.VERIFY_TOKEN.length);
         out.writeBytes(OAuthServer.VERIFY_TOKEN);
 
-        if (protocolVersion >= 	766) {
+        if (protocolVersion >= 766) {
             out.writeBoolean(true);
         }
 

@@ -22,7 +22,7 @@ public class HandshakeHandler {
         session.protocolVersion = protocolVersion;
         session.loginPhase = 1;
         session.nextState = nextState;
-        switch (nextState){
+        switch (nextState) {
             case 1 -> PingResponse.sendPingResponse(ctx, UserConfig.PROTOCOL_VERSION == -1 ? protocolVersion : UserConfig.PROTOCOL_VERSION);
             case 2 -> LoginStartHandler.handleLoginStart(ctx, in, session);
         }
