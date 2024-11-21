@@ -36,7 +36,7 @@ public class UserConfig {
             Files.createDirectories(configFile.toPath().getParent());
             Files.writeString(configFile.toPath(), jsonConfig.toString(4));
         } catch (IOException e) {
-            OAuthServer.logger.log(Level.ERROR, e.toString());
+            OAuthServer.logger.log(Level.DEBUG, e.toString());
         }
     }
 

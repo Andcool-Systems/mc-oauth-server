@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  mc-oauth:
+    container_name: mc-oauth
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 25565:25565
+    networks:
+      - nginx
+
+networks:
+  nginx:
+    external: true
+    name: nginx

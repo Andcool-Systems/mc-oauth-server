@@ -53,17 +53,17 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
                         EncryptionHandler.handleEncryptionResponse(ctx, in, session);
                     }
                 }
-                default -> OAuthServer.logger.log(Level.ERROR, "Invalid packet ID: " + packetId);
+                default -> OAuthServer.logger.log(Level.DEBUG, "Invalid packet ID: " + packetId);
             }
         }catch (Exception e){
-            OAuthServer.logger.log(Level.ERROR, e.toString());
+            OAuthServer.logger.log(Level.DEBUG, e.toString());
         }
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws IOException {
         disconnect(ctx, "§cInternal server exception");
-        OAuthServer.logger.log(Level.ERROR, cause.toString());
+        OAuthServer.logger.log(Level.DEBUG, cause.toString());
     }
 
     @Override

@@ -48,7 +48,7 @@ public class EncryptionHandler {
             byte[] verifyToken = rsaCipher.doFinal(encryptedVerifyToken);
 
             if (!Arrays.equals(OAuthServer.VERIFY_TOKEN, verifyToken)) {
-                OAuthServer.logger.log(Level.ERROR, "Invalid verify token");
+                OAuthServer.logger.log(Level.DEBUG, "Invalid verify token");
                 SessionHandler.disconnect(ctx, "Error while encryption!");
                 return;
             } else {
@@ -81,7 +81,7 @@ public class EncryptionHandler {
 
             OAuthServer.logger.log(Level.INFO, "Created code " + code + " for " + session.nickname);
         } catch (IOException | InterruptedException | InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException | JSONException e) {
-            OAuthServer.logger.log(Level.ERROR, "Exception in handleEncryptionResponse: " + e.toString());
+            OAuthServer.logger.log(Level.DEBUG, "Exception in handleEncryptionResponse: " + e.toString());
         } finally {
             //in.release(); // Освобождение буфера
         }

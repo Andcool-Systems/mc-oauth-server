@@ -1,0 +1,40 @@
+body {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+
+    font-family: "Inter", sans-serif;
+
+    color: white;
+    background-color: #3c3c3c;
+}
+
+main {
+    max-width: 1280px;
+    width: 100%;
+}
+
+pre {
+    background-color: #00adb594;
+    padding: .5rem;
+    border-radius: 5px;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+}

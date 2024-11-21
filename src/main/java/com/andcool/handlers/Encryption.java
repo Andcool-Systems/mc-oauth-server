@@ -27,7 +27,7 @@ public final class Encryption extends MessageToMessageCodec<ByteBuf, ByteBuf> {
             encodeBuf = new CryptBuf(Cipher.ENCRYPT_MODE, sharedSecret);
             decodeBuf = new CryptBuf(Cipher.DECRYPT_MODE, sharedSecret);
         } catch (GeneralSecurityException e) {
-            OAuthServer.logger.log(Level.ERROR, e.toString());
+            OAuthServer.logger.log(Level.DEBUG, e.toString());
             throw new AssertionError("Failed to initialize encrypted channel", e);
         }
     }

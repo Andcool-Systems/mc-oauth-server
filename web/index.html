@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <title>mc-oauth.andcool.ru</title>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/favicon.ico">
+
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>mc-oauth.andcool.ru</h1>
+            <a href="https://github.com/Andcool-Systems/mc-oauth-server">Исходный код</a>
+        </header>
+        <hr>
+        <h2 style="margin-bottom: .5rem;">Описание</h2>
+        <p>Сервис <span style="color: #00ADB5">mc-oauth</span> призван облегчить создание систем
+            аутентификации через Minecraft
+            профили. Сервис не требует введения данных учётной записи Microsoft или Mojang. Все что нужно для входа –
+            зайти на Minecraft сервер и получить там 6-значный код.</p>
+
+        <h2 style="margin-bottom: .5rem;">Пользователям</h2>
+        <p>Сайты, использующие наш сервис запросят у вас 6-значный код, который вы можете получить, подключившись к
+            Minecraft серверу <span style="color: #00ADB5">`auth.mc-oauth.andcool.ru`</span> для версий от 1.8. Наш
+            сервис
+            поддерживает аутентификацию только лицензионных профилей Minecraft.</p>
+
+        <h2 style="margin-bottom: .5rem;">Разработчикам</h2>
+        <p>Чтобы начать работу с API сервиса, разместите поле ввода 6-значного кода в вашем проекте, куда пользователи
+            будут вводить свои коды. После подтверждения пользователем ввода, отправьте запрос на описанный ниже
+            эндпоинт API.</p>
+
+        <h2 style="margin-bottom: .5rem;">Документация</h2>
+        <p>API состоит всего из одного эндпоинта, доступного по URL<br /><br />
+            <b style="color: #00ADB5">`GET https://mc-oauth.andcool.ru/code/&lt;code&gt`</b><br /><br />
+
+            Сделайте GET запрос на этот эндпоинт любым удобным для вас методом, заменив &lt;code&gt на код, переданный
+            пользователем.<br />
+
+            При успешном выполнении сервис вернет ответ в формате JSON, который будет содержать UUID и никнейм
+            пользователя, которому был выдан этот код. <br /><br />
+        <pre>
+{
+    "nickname": "AndcoolSystems",
+    "UUID": "1420c63c-b111-4453-993f-b3479ba1d4c6",
+    "status": "success"
+}</pre>
+        </p>
+        <h2 style="margin-bottom: .5rem;">Как это работает?</h2>
+        <p>Наш сервис имитирует систему рукопожатий, используемую на оригинальных серверах Minecraft, но не включает
+            игровой
+            функционал. При подключении клиента сервер устанавливает защищённое соединение и выполняет авторизацию
+            клиента через
+            серверы Mojang. После успешной проверки лицензии соединение разрывается, а клиенту выдается уникальный код,
+            связанный с
+            его данными. Этот код действует только в течение 5 минут и может быть использован лишь один раз.</p>
+        <hr />
+        Created by AndcoolSystems with ❤<br /><br />
+        NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
+    </main>
+</body>
+
+</html>

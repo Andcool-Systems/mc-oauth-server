@@ -1,9 +1,6 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:21
 WORKDIR /app
 
 COPY . .
 
-CMD ["java", "-jar", "test_auth.jar"]
-
-EXPOSE 8089
-EXPOSE 25565
+CMD ["java", "-jar", "mc-oauth-all.jar"]
