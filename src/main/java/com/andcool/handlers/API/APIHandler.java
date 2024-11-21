@@ -25,14 +25,14 @@ public class APIHandler implements HttpHandler {
         if (matcher.matches()) {
             String code = matcher.group(1);
             JSONObject result = OAuthServer.expiringMap.get(code);
-            if (result == null){
+            if (result == null) {
                 JSONObject jsonResponse = new JSONObject();
                 jsonResponse.put("status", "error");
                 jsonResponse.put("message", "Code not found");
                 jsonResponse.put("status_code", 404);
                 response = jsonResponse.toString();
                 status_code = 404;
-            }else{
+            } else {
                 response = result.toString();
                 OAuthServer.expiringMap.remove(code);
             }
