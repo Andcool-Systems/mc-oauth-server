@@ -39,7 +39,7 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
             Session session = SessionUtil.getSession(ctx.channel());
             int packetLength = ByteBufUtils.readVarInt(in);
             int packetId = ByteBufUtils.readVarInt(in);
-            OAuthServer.logger.log(Level.DEBUG, "packet id: " + packetId + " packet length: " + packetLength);
+            OAuthServer.logger.log(Level.DEBUG, "Packet id: " + packetId + " packet length: " + packetLength);
 
             switch (packetId) {
                 case 0x00 -> // Handshake
@@ -55,8 +55,9 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
                 }
                 default -> OAuthServer.logger.log(Level.DEBUG, "Invalid packet ID: " + packetId);
             }
-        }catch (Exception e){
-            OAuthServer.logger.log(Level.DEBUG, e.toString());
+        } catch (Exception e){
+            //disconnect(ctx, "§cInternal server exception");
+            OAuthServer.logger.log(Level.ERROR, e.toString());
         }
     }
 

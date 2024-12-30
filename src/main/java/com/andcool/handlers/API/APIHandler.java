@@ -27,9 +27,8 @@ public class APIHandler implements HttpHandler {
             JSONObject result = OAuthServer.expiringMap.get(code);
             if (result == null) {
                 JSONObject jsonResponse = new JSONObject();
-                jsonResponse.put("status", "error");
                 jsonResponse.put("message", "Code not found");
-                jsonResponse.put("status_code", 404);
+                jsonResponse.put("statusCode", 404);
                 response = jsonResponse.toString();
                 status_code = 404;
             } else {
@@ -38,9 +37,8 @@ public class APIHandler implements HttpHandler {
             }
         } else {
             JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("status", "error");
-            jsonResponse.put("message", "Not found");
-            jsonResponse.put("status_code", 404);
+            jsonResponse.put("message", "Cannot GET " + path);
+            jsonResponse.put("statusCode", 404);
             response = jsonResponse.toString();
             status_code = 404;
         }

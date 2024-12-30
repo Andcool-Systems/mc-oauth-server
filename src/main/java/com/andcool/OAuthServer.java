@@ -67,7 +67,7 @@ public class OAuthServer {
                     });
 
             HttpServer server = HttpServer.create(new InetSocketAddress(UserConfig.PORT_API), 0);
-            server.createContext("/", new APIHandler());
+            server.createContext("/code/", new APIHandler());
             server.setExecutor(null);
             server.start();
 
