@@ -1,4 +1,4 @@
-# Minecraft OAuth Server
+# Minecraft OAuth Provider
 
 ## 🚀 Description
 A simple way to add Minecraft authentication to your website or project.
