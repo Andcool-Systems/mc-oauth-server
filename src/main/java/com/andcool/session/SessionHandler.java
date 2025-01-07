@@ -30,11 +30,11 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
         scheduler.schedule(() -> {
             ctx.close();
-        }, 15, TimeUnit.SECONDS);
+        }, 15, TimeUnit.SECONDS);  // Closing session if connection too long
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf in) throws IOException {
         try {
             Session session = SessionUtil.getSession(ctx.channel());
             int packetLength = ByteBufUtils.readVarInt(in);
@@ -45,7 +45,7 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
                 case 0x00 -> // Handshake
                     HandshakeHandler.handleHandshake(ctx, in, session);
                 case 0x01 -> {
-                    if (session.nextState == 1) { // Ping/Pong request
+                    if (session.nextState == 1) {  // Ping/Pong request
                         long payload = in.readLong();
                         PingResponse.pongResponse(ctx, payload);
                     }
@@ -55,25 +55,31 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
                 }
                 default -> OAuthServer.logger.log(Level.DEBUG, "Invalid packet ID: " + packetId);
             }
-        } catch (Exception e){
-            //disconnect(ctx, "§cInternal server exception");
-            OAuthServer.logger.log(Level.ERROR, e.toString());
+        } catch (Exception e) {
+            disconnect(ctx, "§cInternal server exception");
+            OAuthServer.logger.log(Level.ERROR, e, true);
         }
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws IOException {
         disconnect(ctx, "§cInternal server exception");
-        OAuthServer.logger.log(Level.DEBUG, cause.toString());
+        OAuthServer.logger.log(Level.ERROR, cause, true);
     }
 
+    /*
+    When client closes connection
+     */
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) {  // Client disconnect
+    public void channelInactive(ChannelHandlerContext ctx) {
         OAuthServer.logger.log(Level.DEBUG, "Session closed!");
         ctx.fireChannelInactive();
         scheduler.shutdown();
     }
 
+    /*
+    Disconnect client with minecraft reason
+     */
     public static void disconnect(ChannelHandlerContext ctx, String reason) throws IOException {
         ByteBuf out = ctx.alloc().buffer();
         ByteBufUtils.writeVarInt(out, 0x00); // Packet ID

@@ -6,15 +6,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
-import io.netty.handler.timeout.IdleStateHandler;
 import org.json.JSONObject;
 
 import com.andcool.config.UserConfig;
@@ -36,6 +31,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
+
+import static com.andcool.encryption.Keys.generateKeyPair;
+import static com.andcool.encryption.Keys.generateVerifyToken;
 
 
 public class OAuthServer {
@@ -78,22 +76,6 @@ public class OAuthServer {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
-    }
-
-    private static KeyPair generateKeyPair() {
-        try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(1024);
-            return keyPairGenerator.generateKeyPair();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static byte[] generateVerifyToken() {
-        byte[] token = new byte[4];
-        new SecureRandom().nextBytes(token);
-        return token;
     }
 
     private static String loadIcon(){

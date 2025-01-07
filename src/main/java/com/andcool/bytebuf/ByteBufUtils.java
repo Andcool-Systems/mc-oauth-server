@@ -53,38 +53,6 @@ public class ByteBufUtils {
 
     }
 
-    public static long readVarLong(ByteBuf in) {
-        long value = 0;
-        int position = 0;
-        byte currentByte;
-
-        while (true) {
-            currentByte = in.readByte();
-            value |= (long) (currentByte & 0x7F) << position;
-
-            if ((currentByte & 0x80) == 0) break;
-
-            position += 7;
-
-            if (position >= 64) throw new RuntimeException("VarLong is too big");
-        }
-
-        return value;
-    }
-
-    public static void writeVarLong(ByteBuf buf, long value) {
-        do {
-            byte part = (byte)((int)(value & 127L));
-            value >>>= 7;
-            if (value != 0L) {
-                part = (byte)(part | 128);
-            }
-
-            buf.writeByte(part);
-        } while(value != 0L);
-
-    }
-
     public static void sendPacket(ChannelHandlerContext ctx, ByteBuf data) {
         ByteBuf packet = ctx.alloc().buffer();
         try {

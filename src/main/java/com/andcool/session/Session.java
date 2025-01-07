@@ -9,6 +9,5 @@ public class Session {
                                 // 1 - waiting for login request
                                 // 2 - waiting for encryption response
 
-    public Session() {
-    }
+    public Session() {}
 }

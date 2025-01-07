@@ -1,4 +1,4 @@
-package com.andcool.handlers;
+package com.andcool.encryption;
 
 import com.andcool.sillyLogger.Level;
 import io.netty.buffer.ByteBuf;
@@ -33,14 +33,12 @@ public final class Encryption extends MessageToMessageCodec<ByteBuf, ByteBuf> {
     }
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out)
-        throws Exception {
+    protected void encode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) {
         encodeBuf.crypt(msg, out);
     }
 
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out)
-        throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) {
         decodeBuf.crypt(msg, out);
     }
 

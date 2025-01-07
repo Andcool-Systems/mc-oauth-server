@@ -13,8 +13,4 @@ public class SessionUtil {
     public static void setSession(Channel channel, Session session) {
         channel.attr(SESSION_KEY).set(session);
     }
-
-    public static void removeSession(Channel channel) {
-        channel.attr(SESSION_KEY).set(null);
-    }
 }

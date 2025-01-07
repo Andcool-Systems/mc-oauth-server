@@ -15,12 +15,15 @@ public class EncryptionRequest {
         ByteBufUtils.writeUTF8(out, UserConfig.SERVER_ID); // Server ID
         byte[] publicKey = OAuthServer.KEY_PAIR.getPublic().getEncoded();
 
+        // Write server's public key
         ByteBufUtils.writeVarInt(out, publicKey.length);
         out.writeBytes(publicKey);
 
+        // Write server's verify token
         ByteBufUtils.writeVarInt(out, OAuthServer.VERIFY_TOKEN.length);
         out.writeBytes(OAuthServer.VERIFY_TOKEN);
 
+        // For widest client protocol version support
         if (protocolVersion >= 766) {
             out.writeBoolean(true);
         }

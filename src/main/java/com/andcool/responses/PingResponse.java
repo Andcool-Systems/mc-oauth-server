@@ -1,11 +1,11 @@
 package com.andcool.responses;
 
 import com.andcool.OAuthServer;
+import com.andcool.bytebuf.ByteBufUtils;
 import com.andcool.config.UserConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import org.json.JSONObject;
-import com.andcool.bytebuf.ByteBufUtils;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import static com.andcool.bytebuf.ByteBufUtils.sendPacket;
 
 public class PingResponse {
-    public static String Response(int protoVersion){
+    public static String Response(int protoVersion) {
         JSONObject json_response = new JSONObject();
 
         JSONObject version = new JSONObject();
