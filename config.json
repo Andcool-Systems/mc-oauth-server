@@ -1,10 +1,10 @@
 {
     "PLAYERS_MAX": 0,
     "PORT_SERVER": 25565,
+    "PORT_API": 8089,
     "SERVER_ID": "mc-oauth",
     "PROTOCOL_VERSION": -1,
     "MOTD": "",
-    "SERVER_VERSION": "1.20.4",
-    "PLAYERS_NOW": 0,
-    "PORT_API": 8089
+    "SERVER_VERSION": "1.21.4",
+    "PLAYERS_NOW": 0
 }

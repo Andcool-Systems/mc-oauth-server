@@ -23,7 +23,7 @@ public class EncryptionRequest {
         ByteBufUtils.writeVarInt(out, OAuthServer.VERIFY_TOKEN.length);
         out.writeBytes(OAuthServer.VERIFY_TOKEN);
 
-        // For widest client protocol version support
+        // Starting with protocol version 766, the server must specify when clients should attempt to authenticate with mojang
         if (protocolVersion >= 766) {
             out.writeBoolean(true);
         }
