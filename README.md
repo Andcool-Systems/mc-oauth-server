@@ -14,6 +14,12 @@ Our service provides an authentication system that does not require complex acti
 - ⚡ Easy to use and implement
 - 🔒 The server handles only the authentication flow and nothing more
 
+## 💻 For Users
+1. Open Minecraft and connect to the server that uses this service.
+2. After connecting, the server will kick you, returning your unique code in a message.
+3. Enter the received code on the website that using our service.
+4. Enjoy the result ❤.
+
 ## 🛠️ For Developers
 1. Add a form on your website or project for entering a 6-digit code.
 2. After the user inputs the code provided by the server upon login, make a request to the API endpoint described below.
