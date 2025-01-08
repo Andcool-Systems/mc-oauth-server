@@ -58,9 +58,7 @@ public class OAuthServer {
                         public void initChannel(SocketChannel ch) {
                             ch.pipeline()
                                     .addLast(new SessionHandler())
-                                    .addLast("encryption", NoopHandler.INSTANCE)
-                                    .addLast(new LengthFieldBasedFrameDecoder(8192, 0, 4, 0, 4))
-                                    .addLast(new LengthFieldPrepender(4));
+                                    .addLast("encryption", NoopHandler.INSTANCE);
                         }
                     });
 

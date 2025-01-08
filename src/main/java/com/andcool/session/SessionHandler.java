@@ -87,6 +87,7 @@ public class SessionHandler extends SimpleChannelInboundHandler<ByteBuf> {
         response.put("text", "");
         response.put("extra", OAuthServer.MOTD_FORMATTER.format(reason));
         ByteBufUtils.writeUTF8(out, response.toString());
-        ctx.channel().writeAndFlush(out).addListener(ChannelFutureListener.CLOSE);
+        ByteBuf packet = ByteBufUtils.addSize(ctx, out);
+        ctx.channel().writeAndFlush(packet).addListener(ChannelFutureListener.CLOSE);
     }
 }

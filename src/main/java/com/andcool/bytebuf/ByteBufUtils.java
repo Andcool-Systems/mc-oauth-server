@@ -63,4 +63,12 @@ public class ByteBufUtils {
             data.release();
         }
     }
+
+    public static ByteBuf addSize(ChannelHandlerContext ctx, ByteBuf data) {
+        ByteBuf packet = ctx.alloc().buffer();
+        ByteBufUtils.writeVarInt(packet, data.readableBytes());
+        packet.writeBytes(data);
+
+        return packet;
+    }
 }
