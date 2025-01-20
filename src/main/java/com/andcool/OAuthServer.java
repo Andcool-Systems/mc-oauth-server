@@ -10,6 +10,7 @@ import java.util.Base64;
 
 import javax.imageio.ImageIO;
 
+import io.netty.util.ResourceLeakDetector;
 import org.json.JSONObject;
 
 import com.andcool.config.UserConfig;
@@ -46,6 +47,8 @@ public class OAuthServer {
     public static final String SERVER_ICON = loadIcon();
 
     public static void main(String[] args) throws Exception {
+        ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
+
         UserConfig.load();
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
