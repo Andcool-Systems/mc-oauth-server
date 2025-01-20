@@ -42,7 +42,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: build
 
     steps:
       - name: Checkout repository
@@ -73,7 +73,7 @@ jobs:
             docker compose up -d
           EOF
   create-release:
-    needs: [build]
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
@@ -90,4 +90,4 @@ jobs:
           generate_release_notes: true
           make_latest: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
