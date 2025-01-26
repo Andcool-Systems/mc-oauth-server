@@ -6,7 +6,8 @@ A simple way to add Minecraft authentication to your website or project.
 Many developers who have tried to implement user authentication through Minecraft's official system using Microsoft have encountered various difficulties. One of the main issues is the requirement to create and get approval for an authentication application directly from Microsoft, which can be a challenging task.
 
 ## 💡 Why mc-oauth?
-Our service provides an authentication system that does not require complex actions from either users or developers.
+Our service provides an authentication system that does not require complex actions from either users or developers.  
+All you need to enter is to go to a Minecraft server and get a 6-digit code there, then enter it on the site that uses this service.
 
 ### 🔑 Features
 - 📋 Retrieve nickname and UUID via REST API
