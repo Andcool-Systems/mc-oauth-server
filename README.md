@@ -1,5 +1,8 @@
 # Minecraft OAuth Provider
 
+>[!WARNING]
+> This project has been rewritten in Rust! This version is partially no longer supported, use the [new one](https://github.com/Andcool-Systems/mc-oauth-rs) in your projects.
+
 ## 🚀 Description
 A simple way to add Minecraft authentication to your website or project.
 
